@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="APP_Name" value="convert-demo"/>
+    <contextName>${APP_Name}</contextName>
+
+    <logger name="org.springframework.web" level="INFO"/>
+    <logger name="org.springboot.sample" level="INFO"/>
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%d{yy-MM-dd HH:mm:ss:sss z}] %-5p [%logger{36}.%M] [%thread] : %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 打印DEBUG、INFO级别的日志 -->  
+    <appender name="rollingFileInfo" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/var/logs/${APP_Name}.info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/var/logs/${APP_Name}/${APP_Name}.info.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{yy-MM-dd HH:mm:ss:sss z}] %-5p [%logger{36}.%M] [%thread] : %m%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!--返回DENY，日志将立即被抛弃不再经过其他过滤器；返回NEUTRAL，有序列表里的下个过滤器过接着处理日志；返回ACCEPT，日志会被立即处理，不再经过剩余过滤器-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>NEUTRAL</onMismatch>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 打印Warn、ERROR级别的日志-->  
+    <appender name="rollingFileWarn" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/var/logs/${APP_Name}.warn.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/var/logs/${APP_Name}/${APP_Name}.warn.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%d{yy-MM-dd HH:mm:ss:sss z}] %-5p [%logger{36}.%M] [%thread] : %m%n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <!--返回DENY，日志将立即被抛弃不再经过其他过滤器；返回NEUTRAL，有序列表里的下个过滤器过接着处理日志；返回ACCEPT，日志会被立即处理，不再经过剩余过滤器-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                    
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>         
+            <onMismatch>NEUTRAL</onMismatch>
+                
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                    
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>          
+            <onMismatch>DENY</onMismatch>
+                
+        </filter>
+    </appender>
+
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.springboot" level="INFO"/>
+    <!--单独设置 某一个包下的 日志级别-->
+    <logger name="com.example" level="DEBUG"/>
+    <logger name="apache" level="INFO"/>
+
+    <root level="INFO">
+        <appender-ref ref="console"/>
+        <appender-ref ref="rollingFileInfo"/>
+        <appender-ref ref="rollingFileWarn"/>
+    </root>
+
+</configuration>
