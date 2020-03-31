@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 /**
  *
  * 简单定时任务:定时清理文件夹
+ * 此方法可能会出现异常:当线程池里的四个线程正在向文件夹里写的时候,此时删除文件,写流异常,因为文件被当前定时任务删了
  * @author duhongbo
  * @date 2020/3/27 14:07
  */

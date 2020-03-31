@@ -43,11 +43,17 @@ import java.util.Objects;
  *
  * 此demo仅模拟客户端、服务端之间通过http/https调用
  *
+ * 已破解的文件:
+ * 1、aspose-slide(19.6版本-高版本-最新版本20.2)
+ * 2、aspose-word(18.6版本-高版本-最新版本20.2)
+ * 3、aspose-pdf(17.8版本-低版本,高版本的目前还未找到破解方法)
+ * 以上破解文件,已经全部重新打为jar包deploy到maven私服,位置在<a href="http://java.dev.anoah.com/artifactory/thirdparty/"/>
+ *
  * 已实现的功能:
  * 1、传入文件的下载url,从url中获得输入流
  * 2、ppt、word到pdf的下载转换
  * 3、word、pdf到图片的下载转换
- * 4、进行网络下载时加重试策略(这里使用的是Sring自带的Retry,也可以使用OpenFeign来进行整体网络请求,feign也提供了Retryer重试接口的方法)
+ * 4、进行网络下载时加重试策略(这里使用的是Spring自带的Retry,也可以使用OpenFeign来进行整体网络请求,feign也提供了Retryer重试接口的方法)
  *
  * 待实现的功能:
  * 1、未支持本地转换(本地转换的机制(消息队列的发布/订阅模式来通知转换服务进行转换)、触发策略)
@@ -192,6 +198,12 @@ public class TransformController {
         return null;
     }
 
+    /**
+     * PDF转图片
+     * @author duhongbo
+     * @param downloadUrl pdf下载地址
+     * @return java.lang.String
+     */
     @PostMapping(value = "convertPdfToImage")
     public String convertPdfToImage(@RequestParam String downloadUrl){
         if (!VerifyUrlUtil.isHttpUrl(downloadUrl)){
@@ -314,6 +326,12 @@ public class TransformController {
     }
 
 
+     /**
+      * 一直执行四个转换方法
+      * @author duhongbo
+      * @param
+      * @return void
+      */
     @SuppressWarnings("InfiniteLoopStatement")
     @PostConstruct
     public void alwaysRun(){

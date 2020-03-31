@@ -1,5 +1,5 @@
 server:
-  port: 8087
+  port: 7077
   servlet:
     context-path: /
   tomcat:
@@ -15,8 +15,9 @@ logging:
   level:
     org.springframework.web: info
   config: classpath:logback/logback-spring.xml
+#转换之后保存的目录
 save-dir:
-  ppt-pdf-save-dir: D:\jmeterPPT\ppt-pdf
-  word-pdf-save-dir: D:\jmeterPPT\word-pdf
-  word-picture-save-dir: D:\jmeterPPT\word-picture
-  pdf-picture-save-dir: D:\jmeterPPT\pdf-picture
+  ppt-pdf-save-dir: /app/upload/office/ppt-pdf
+  word-pdf-save-dir: /app/upload/office/word-pdf
+  word-picture-save-dir: /app/upload/office/word-picture
+  pdf-picture-save-dir: /app/upload/office/pdf-picture
