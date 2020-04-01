@@ -112,19 +112,19 @@
         <dependency>
             <groupId>com.youxuepai.edu</groupId>
             <artifactId>aspose-slide</artifactId>
-            <version>19.6</version>
+            <version>19.6-license</version>
         </dependency>
 
         <dependency>
             <groupId>com.youxuepai.edu</groupId>
             <artifactId>aspose-words</artifactId>
-            <version>18.6</version>
+            <version>19.1-license</version>
         </dependency>
 
         <dependency>
             <groupId>com.youxuepai.edu</groupId>
             <artifactId>aspose-pdf</artifactId>
-            <version>17.8</version>
+            <version>17.8-license</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->

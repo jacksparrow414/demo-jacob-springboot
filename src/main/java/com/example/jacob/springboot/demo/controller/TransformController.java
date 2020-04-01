@@ -45,7 +45,7 @@ import java.util.Objects;
  *
  * 已破解的文件:
  * 1、aspose-slide(19.6版本-高版本-最新版本20.2)
- * 2、aspose-word(18.6版本-高版本-最新版本20.2)
+ * 2、aspose-word(19.1版本-高版本-最新版本20.2)
  * 3、aspose-pdf(17.8版本-低版本,高版本的目前还未找到破解方法)
  * 以上破解文件,已经全部重新打为jar包deploy到maven私服,位置在<a href="http://java.dev.anoah.com/artifactory/thirdparty/"/>
  *
@@ -85,6 +85,7 @@ public class TransformController {
     private ThreadPoolTaskExecutor taskExecutor;
     @Autowired
     DownloadService downloadService;
+
 
     /**
      * word转PDF

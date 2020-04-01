@@ -31,7 +31,7 @@ public class RemoveFileDirTask {
     @Value("${save-dir.pdf-picture-save-dir}")
     private String pdfPicSaveDir;
 
-    @Scheduled(initialDelay =  60 * 1000,fixedDelay = 5 * 60 * 1000)
+    @Scheduled(initialDelay = 2 * 60 * 1000,fixedDelay = 5 * 60 * 1000)
     public void removeFile() {
         LOGGER.info("开始清理文件夹下的内容,当前时间----->{}", LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         FileUtil.del(pptSaveDir);

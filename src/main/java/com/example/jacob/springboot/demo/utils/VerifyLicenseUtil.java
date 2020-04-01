@@ -12,6 +12,7 @@ import java.util.Objects;
  * @author duhongbo
  * @date 2020/3/20 9:32
  */
+
 public class VerifyLicenseUtil {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VerifyLicenseUtil.class);
@@ -22,7 +23,7 @@ public class VerifyLicenseUtil {
      * @return boolean
      */
     public static boolean verifySlidesLicense(){
-       InputStream pptLicense = Thread.currentThread().getContextClassLoader().getResourceAsStream("license-ppt.xml");
+       InputStream pptLicense = com.aspose.slides.Presentation.class.getResourceAsStream("/license-ppt.xml");
         com.aspose.slides.License slidesLicense = new com.aspose.slides.License();
         slidesLicense.setLicense(pptLicense);
         return true;
@@ -34,8 +35,7 @@ public class VerifyLicenseUtil {
      * @return boolean
      */
     public static boolean verifyWordsLicense(){
-        try(InputStream wordLicense = Objects.requireNonNull(Thread.currentThread()
-                .getContextClassLoader().getResourceAsStream("license-word.xml"))) {
+        try(InputStream wordLicense = Objects.requireNonNull(com.aspose.words.Document.class.getResourceAsStream("/license-word.xml"))) {
             com.aspose.words.License license = new License();
             license.setLicense(wordLicense);
             return true;
@@ -53,7 +53,7 @@ public class VerifyLicenseUtil {
      * @return boolean
      */
     public static boolean verifyPdfLicense(){
-        try(InputStream pdfLicense = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResourceAsStream("license-pdf.xml"))) {
+        try(InputStream pdfLicense = Objects.requireNonNull(com.aspose.pdf.Document.class.getResourceAsStream("/license-pdf.xml"))) {
             com.aspose.pdf.License license = new com.aspose.pdf.License();
             license.setLicense(pdfLicense);
             return true;
