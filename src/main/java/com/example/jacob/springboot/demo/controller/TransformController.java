@@ -1,4 +1,4 @@
-package com.example.jacob.springboot.demo.contriller;
+package com.example.jacob.springboot.demo.controller;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.date.TimeInterval;
@@ -70,7 +70,6 @@ public class TransformController {
     private static final String TEST_PPT_DOWNLOAD_URL = "https://proj289test.anoah.com/file/download/appd883fd21fb99/beikeDoc/20200327/82/c_1243440738071511042_20200327153228626.ppt";
     private static final String TEST_PDF_DOWNLOAD_URL = "https://proj289test.anoah.com/file/download/appd883fd21fb99/beikeDoc/20200326/139/c_1242999937239646210_20200326102053515.pdf";
     private  Logger logger = LoggerFactory.getLogger(TransformController.class);
-    private static String nowDateString = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
     @Autowired
     TransformService transformService;
@@ -101,6 +100,7 @@ public class TransformController {
        if (!VerifyLicenseUtil.verifyWordsLicense()){
            return "许可证错误";
        }
+        String nowDateString = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
        // 创建目录
         File wordDir =this.createDir(wordSaveDir,nowDateString);
 
@@ -136,7 +136,7 @@ public class TransformController {
             logger.error("许可证无效了");
             return "ppt许可证过期";
         }
-
+        String nowDateString = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         // 创建目录
         File dir = this.createDir(pptSaveDir,nowDateString);
         File file = new File(dir.getPath()+"/"+nowDateString+"_"+RandomUtils.nextInt()+"."+ FileTypeEnum.PDF.getFileExtionName());
@@ -168,6 +168,7 @@ public class TransformController {
         if (!VerifyLicenseUtil.verifyWordsLicense()){
             return "word许可证过期";
         }
+        String nowDateString = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         int dirNum = RandomUtils.nextInt();
         File targetDir = this.createDir(picSaveDir,nowDateString,dirNum);
         FileOutputStream picOutputStream = null;
@@ -212,6 +213,7 @@ public class TransformController {
         if (!VerifyLicenseUtil.verifyPdfLicense()){
             return "pdf许可证过期";
         }
+        String nowDateString = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         int dirNum = RandomUtils.nextInt();
         File picSaveDir = this.createDir(pdfPicSaveDir,nowDateString,dirNum);
         FileOutputStream fileOutputStream = null;
@@ -338,16 +340,6 @@ public class TransformController {
 
             taskExecutor.execute(()->{
                 while (true){
-                this.convertPptDownload(TEST_PPT_DOWNLOAD_URL);
-            }
-            });
-            taskExecutor.execute(()->{
-                while (true){
-                this.convertWord(TEST_WORD_DOWNLOAD_URL);
-            }
-            });
-            taskExecutor.execute(()->{
-                while (true){
                     this.convertWordToImage(TEST_WORD_DOWNLOAD_URL);
                 }
             });
@@ -356,6 +348,17 @@ public class TransformController {
                     this.convertPdfToImage(TEST_PDF_DOWNLOAD_URL);
                 }
             });
+            taskExecutor.execute(()->{
+                while (true){
+                this.convertPptDownload(TEST_PPT_DOWNLOAD_URL);
+            }
+            });
+            taskExecutor.execute(()->{
+                while (true){
+                this.convertWord(TEST_WORD_DOWNLOAD_URL);
+            }
+            });
+
         System.out.println("程序运行中.....为防止文件夹过大,每5分钟清理一次所有文件夹.....");
     }
 

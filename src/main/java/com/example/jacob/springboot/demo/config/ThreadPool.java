@@ -19,8 +19,8 @@ public class ThreadPool {
         ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
         int availableProcessors = Runtime.getRuntime().availableProcessors();
         threadPoolTaskExecutor.setCorePoolSize(availableProcessors);
-        threadPoolTaskExecutor.setMaxPoolSize(availableProcessors<<3);
-        threadPoolTaskExecutor.setQueueCapacity(availableProcessors<<4);
+        threadPoolTaskExecutor.setMaxPoolSize(availableProcessors<<10);
+        threadPoolTaskExecutor.setQueueCapacity(availableProcessors<<20);
         threadPoolTaskExecutor.setKeepAliveSeconds(200);
         // 直接抛弃也不抛出异常
         threadPoolTaskExecutor.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardPolicy());
