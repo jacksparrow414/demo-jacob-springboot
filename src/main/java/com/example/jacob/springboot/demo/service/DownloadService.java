@@ -43,7 +43,7 @@ public class DownloadService {
             try(InputStream inputStream = Objects.requireNonNull(forEntity.getBody()).getInputStream()) {
                 return inputStream;
             } catch (IOException e) {
-                LOGGER.info("下载地址 {} 进入重试",downloadUrl);
+                LOGGER.warn("下载地址 {} 进入重试",downloadUrl);
                 throw new RuntimeException(e);
             }
         }
@@ -59,7 +59,7 @@ public class DownloadService {
      */
     @Recover
     public InputStream downLoadRecover(RuntimeException e,String downloadUrl){
-        LOGGER.info("执行补偿方法-------------");
+        LOGGER.warn("执行补偿方法-------------");
         LOGGER.error("{} 下载url达到重试最大次数,无法下载",downloadUrl);
         LOGGER.error("重试异常",e);
         throw new RuntimeException(e);
