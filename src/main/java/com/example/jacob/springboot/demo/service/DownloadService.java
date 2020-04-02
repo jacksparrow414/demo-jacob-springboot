@@ -39,7 +39,7 @@ public class DownloadService {
     @Retryable(value ={ RuntimeException.class},maxAttempts = 3,backoff = @Backoff(delay =5000,multiplier = 2))
     public InputStream downLoadFromPath(String downloadUrl) {
         ResponseEntity<Resource> forEntity = restTemplate.getForEntity(downloadUrl, Resource.class);
-        if (HttpStatus.OK.equals(forEntity.getStatusCode())) {
+        if (HttpStatus.OK.equals(forEntity.getStatusCode()) || HttpStatus.PARTIAL_CONTENT.equals(forEntity.getStatusCode())) {
             try(InputStream inputStream = Objects.requireNonNull(forEntity.getBody()).getInputStream()) {
                 return inputStream;
             } catch (IOException e) {

@@ -69,6 +69,7 @@ public class TransformController {
     private static final String TEST_WORD_DOWNLOAD_URL= "https://proj289test.anoah.com/file/download/appd883fd21fb99/beikeDoc/20200320/150/c_1240836857537789953_20200320110535126.doc";
     private static final String TEST_PPT_DOWNLOAD_URL = "https://proj289test.anoah.com/file/download/appd883fd21fb99/beikeDoc/20200327/82/c_1243440738071511042_20200327153228626.ppt";
     private static final String TEST_PDF_DOWNLOAD_URL = "https://proj289test.anoah.com/file/download/appd883fd21fb99/beikeDoc/20200326/139/c_1242999937239646210_20200326102053515.pdf";
+
     private  Logger logger = LoggerFactory.getLogger(TransformController.class);
 
     @Autowired
@@ -85,8 +86,6 @@ public class TransformController {
     private ThreadPoolTaskExecutor taskExecutor;
     @Autowired
     DownloadService downloadService;
-
-
     /**
      * word转PDF
      * @author duhongbo
@@ -102,10 +101,12 @@ public class TransformController {
            return "许可证错误";
        }
         String nowDateString = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+
        // 创建目录
         File wordDir =this.createDir(wordSaveDir,nowDateString);
-
         File file = new File(wordDir.getPath()+"/"+nowDateString+"_"+RandomUtils.nextInt()+"."+FileTypeEnum.PDF.getFileExtionName());
+        // try-with-resource中声明的变量会被隐式地加上final关键字，所以无法再进行赋值
+        // try-with-resource中声明的Stream会自动进行关闭
         try(InputStream word = Objects.requireNonNull(downloadService.downLoadFromPath(downloadUrl));
             FileOutputStream fileOutputStream = new FileOutputStream(file)){
             TimeInterval timer = DateUtil.timer();
@@ -177,8 +178,10 @@ public class TransformController {
             Document document = new Document(picInputStream);
             ImageSaveOptions imageSaveOptions = new ImageSaveOptions(com.aspose.words.SaveFormat.PNG);
             TimeInterval timer = DateUtil.timer();
-            for (int i = 1; i < document.getPageCount(); i++) {
-                File pngFile = new File(targetDir.getPath() + "/"+nowDateString+"_"+dirNum+"_"+ i + "."+FileTypeEnum.PNG.getFileExtionName());
+            // 默认从0开始
+            for (int i = 0; i < document.getPageCount(); i++) {
+                int index = i+1;
+                File pngFile = new File(targetDir.getPath() + "/"+nowDateString+"_"+dirNum+"_"+ index + "."+FileTypeEnum.PNG.getFileExtionName());
                 picOutputStream = new FileOutputStream(pngFile);
                 imageSaveOptions.setPageIndex(i);
                 document.save(picOutputStream, imageSaveOptions);
@@ -223,7 +226,8 @@ public class TransformController {
             // 设置图片的像素,这里使用默认配置
             PngDevice pngDevice = new PngDevice();
             TimeInterval timeInterval = DateUtil.timer();
-            for (int i = 1;i<document.getPages().size();i++){
+            // 默认从1开始
+            for (int i = 1;i<document.getPages().size()+1;i++){
                 File pngFile = new File(picSaveDir.getPath()+"/"+nowDateString+"_"+dirNum+"_"+i+"."+FileTypeEnum.PNG.getFileExtionName());
                 fileOutputStream = new FileOutputStream(pngFile);
                 pngDevice.process(document.getPages().get_Item(i),fileOutputStream);
