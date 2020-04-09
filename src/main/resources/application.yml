@@ -5,6 +5,9 @@ server:
   tomcat:
     max-threads: 200
     uri-encoding: UTF-8
+#    项目中的DownloadService是带有重试策略的，如果该方法执行是异步执行则不会有问题，如果是同步执行，则会出现问题，原因如下：
+#    web请求线程到达->DownloadService方法第一次处理失败，则会进行重试->那么当前连接Tomcat的该请求线程会一直等待响应->这个时间可能超过了下面配置的配置时间->
+#  则浏览器会收到Tomcat的连接超时提醒，此时客户端收到的响应被认为是失败的->但是由客户端请求线程发起的调用其他方法还是在执行中的
     connection-timeout: 10000
 spring:
   application:
